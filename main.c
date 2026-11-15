@@ -7,7 +7,8 @@ int main() {
 
     Screen screen;
     ScreenSize(&screen);
-    Player player;
+    Player player = {0};
+    player.velMult = 50;
     player.position=screen.middle;
     Input input;
 
@@ -15,7 +16,7 @@ int main() {
 
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        TakeInput(&input, &player);
+        TakeInput(&input);
         PlayerUpdate(&player, &input, &dt);
         GameRender(&player);
 

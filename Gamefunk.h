@@ -18,14 +18,13 @@ typedef struct Player {
     Vector2 position;
     Vector2 velocity;
     Vector2 view;
+    Vector2 mousePosP;
+    float angle;
 }Player;
 
 typedef struct Input {
     Vector2 move;
-    Vector2 angleV2;
     Vector2 mousepos;
-    Vector2 mouseposP;
-    float angle;
     bool shoot;
 }Input;
 
@@ -37,7 +36,7 @@ typedef struct Screen {
 
 
 //------------------Funktions----------------
-void TakeInput(Input *input, const Player *player);
+void TakeInput(Input *input);
 
 void setup();
 

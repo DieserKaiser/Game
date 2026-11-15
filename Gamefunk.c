@@ -6,7 +6,7 @@
 #include "raymath.h"
 
 
-void TakeInput(Input *input ,const Player *player) {
+void TakeInput(Input *input) {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
         input->shoot=1;
     }
@@ -35,12 +35,6 @@ void TakeInput(Input *input ,const Player *player) {
     }
 
     input->mousepos = GetMousePosition();
-    input->mouseposP= Vector2Subtract(GetMousePosition(), player->position);
-    input->angleV2 = Vector2Normalize(input->mouseposP);
-    input->angle = atan2f(input->angleV2.y,input->angleV2.x) * RAD2DEG;
-
-
-
 }
 
 void setup() {
@@ -67,12 +61,15 @@ void ScreenSize(Screen *screen) {
 
 void PlayerUpdate(Player *player, const Input *input,const float *dt) {
     player->velocity = Vector2Scale(Vector2Scale(Vector2Add(player->velocity, input->move),player->velMult),*dt);
-    player->position = Vector2Scale(Vector2Add(player->position,player->velocity),*dt);
-    player->view = input->angleV2;
+    player->position = Vector2Add(Vector2Scale(player->velocity,*dt), player->position);
+    player->mousePosP= Vector2Subtract(GetMousePosition(), player->position);
+    player->view = Vector2Normalize(player->mousePosP);
+    player->angle = atan2f(player->view.y,player->view.x) * RAD2DEG;
 }
 
 void GameRender(const Player *player) {
     BeginDrawing();
+    ClearBackground(RAYWHITE);
     DrawCircleV(player->position, 50, RED);
     EndDrawing();
 }
