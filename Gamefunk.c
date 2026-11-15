@@ -41,7 +41,7 @@ void setup() {
     SetConfigFlags(FLAG_WINDOW_RESIZABLE);
     InitWindow(1,1,"Game");
     ToggleBorderlessWindowed();
-    SetTargetFPS(60);
+    SetTargetFPS(500);
     InitAudioDevice();
     SetExitKey(0);
 }
@@ -60,9 +60,9 @@ void ScreenSize(Screen *screen) {
 }
 
 void PlayerUpdate(Player *player, const Input *input,const float *dt) {
-    player->velocity = Vector2Scale(Vector2Scale(Vector2Add(player->velocity, input->move),player->velMult),*dt);
+    player->velocity=Vector2Scale(Vector2Normalize(input->move),player->velMult);
     player->position = Vector2Add(Vector2Scale(player->velocity,*dt), player->position);
-    player->mousePosP= Vector2Subtract(GetMousePosition(), player->position);
+    player->mousePosP= Vector2Subtract(input->mousepos, player->position);
     player->view = Vector2Normalize(player->mousePosP);
     player->angle = atan2f(player->view.y,player->view.x) * RAD2DEG;
 }
@@ -71,5 +71,6 @@ void GameRender(const Player *player) {
     BeginDrawing();
     ClearBackground(RAYWHITE);
     DrawCircleV(player->position, 50, RED);
+    DrawLineV(player->position, Vector2Add(player->position, Vector2Scale(player->view,20)),BLUE);
     EndDrawing();
 }
