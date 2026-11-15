@@ -10,10 +10,14 @@
 #include "raylib.h"
 
 
+//------------------Definitions--------------
+#define MAX_PLAYERS 4
+#define MAX_BULLETS 180
+
 //------------------Structs------------------
 
 typedef struct Player {
-    int id;
+    bool connected;
     float velMult ;
     Vector2 position;
     Vector2 velocity;
@@ -33,6 +37,21 @@ typedef struct Screen {
     Vector2 middle;
 }Screen;
 
+typedef struct Bullet {
+    bool active;
+    int ownerId;
+    Vector2 pos;
+    Vector2 vel;
+    int live;
+}Bullet;
+
+typedef struct Game {
+    int localId;
+    Player players[MAX_PLAYERS];
+    Bullet bullets[MAX_BULLETS];
+    Input inputs[MAX_PLAYERS];
+}Game;
+
 
 
 //------------------Funktions----------------
@@ -47,6 +66,8 @@ void ScreenSize(Screen *screen);
 void PlayerUpdate(Player *player, const Input *input, const float *dt);
 
 void GameRender(const Player *player);
+
+void GameInit(Game *game, Screen *screen);
 
 
 

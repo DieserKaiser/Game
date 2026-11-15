@@ -5,20 +5,13 @@
 int main() {
     setup();
 
-    Screen screen;
-    ScreenSize(&screen);
-    Player player = {0};
-    player.velMult = 50;
-    player.position=screen.middle;
-    Input input;
+
+    Game game = {0};
 
 
 
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        TakeInput(&input);
-        PlayerUpdate(&player, &input, &dt);
-        GameRender(&player);
 
     }
     QuitGame();

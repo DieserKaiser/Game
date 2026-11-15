@@ -74,3 +74,14 @@ void GameRender(const Player *player) {
     DrawLineV(player->position, Vector2Add(player->position, Vector2Scale(player->view,20)),BLUE);
     EndDrawing();
 }
+
+void GameInit(Game *game , Screen *screen) {
+    for (int i = 0; i<MAX_PLAYERS; i++) {
+        if (game->players[i].connected == false) {
+            game->localId = i;
+        }
+    }
+    game->players[game->localId].position = screen->middle;
+    game->players[game->localId].velMult = 300;
+
+}
