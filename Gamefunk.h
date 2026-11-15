@@ -42,7 +42,7 @@ typedef struct Bullet {
     int ownerId;
     Vector2 pos;
     Vector2 vel;
-    int live;
+    float live;
 }Bullet;
 
 typedef struct Game {
@@ -55,7 +55,7 @@ typedef struct Game {
 
 
 //------------------Funktions----------------
-void TakeInput(Input *input);
+void TakeInput(Game *game);
 
 void setup();
 
@@ -63,11 +63,11 @@ void QuitGame();
 
 void ScreenSize(Screen *screen);
 
-void PlayerUpdate(Player *player, const Input *input, const float *dt);
+void PlayerUpdate(Game *game, const float *dt);
 
-void GameRender(const Player *player);
+void GameRender(const Game *game);
 
-void GameInit(Game *game, Screen *screen);
+void GameInit(Game *game, const Screen *screen);
 
 
 
