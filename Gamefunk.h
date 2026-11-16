@@ -55,7 +55,7 @@ typedef struct Game {
 
 
 //------------------Funktions----------------
-void TakeInput(Game *game);
+void TakeInput(Input *input);
 
 void setup();
 
@@ -63,7 +63,7 @@ void QuitGame();
 
 void ScreenSize(Screen *screen);
 
-void PlayerUpdate(Game *game, const float *dt);
+void PlayerUpdate(Player *player, const Input *input, const float *dt);
 
 void GameRender(const Game *game);
 

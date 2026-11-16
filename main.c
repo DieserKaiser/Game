@@ -13,8 +13,8 @@ int main() {
     GameInit(&game,&screen);
     while (!WindowShouldClose()) {
         float dt = GetFrameTime();
-        TakeInput(&game);
-        PlayerUpdate(&game,&dt);
+        TakeInput(&game.inputs[game.localId]);
+        PlayerUpdate(&game.players[game.localId],&game.inputs[game.localId],&dt);
         GameRender(&game);
 
 

@@ -6,35 +6,35 @@
 #include "raymath.h"
 
 
-void TakeInput(Game *game) {
+void TakeInput(Input *input) {
     if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT)) {
-        game->inputs[game->localId].shoot=1;
+        input->shoot=1;
     }
     else {
-        game->inputs[game->localId].shoot=0;
+        input->shoot=0;
     }
 
     if (IsKeyDown(KEY_W) && !IsKeyDown(KEY_S)) {
-        game->inputs[game->localId].move.y=-1;
+        input->move.y=-1;
     }
     else if (IsKeyDown(KEY_S) && !IsKeyDown(KEY_W)) {
-        game->inputs[game->localId].move.y=1;
+        input->move.y=1;
     }
     else {
-        game->inputs[game->localId].move.y=0;
+        input->move.y=0;
     }
 
     if (IsKeyDown(KEY_A) && !IsKeyDown(KEY_D)) {
-        game->inputs[game->localId].move.x=-1;
+        input->move.x=-1;
     }
     else if (IsKeyDown(KEY_D) && !IsKeyDown(KEY_A)) {
-        game->inputs[game->localId].move.x=1;
+        input->move.x=1;
     }
     else {
-        game->inputs[game->localId].move.x=0;
+        input->move.x=0;
     }
 
-   game->inputs[game->localId].mousepos = GetMousePosition();
+   input->mousepos = GetMousePosition();
 }
 
 void setup() {
@@ -59,12 +59,12 @@ void ScreenSize(Screen *screen) {
     screen->middle = Vector2Scale(screen->size,0.5f);
 }
 
-void PlayerUpdate(Game *game, const float *dt) {
-    game->players[game->localId].velocity=Vector2Scale(Vector2Normalize(game->inputs[game->localId].move),game->players[game->localId].velMult);
-    game->players[game->localId].position = Vector2Add(Vector2Scale(game->players[game->localId].velocity,*dt), game->players[game->localId].position);
-    game->players[game->localId].mousePosP= Vector2Subtract(game->inputs[game->localId].mousepos, game->players[game->localId].position);
-    game->players[game->localId].view = Vector2Normalize(game->players[game->localId].mousePosP);
-    game->players[game->localId].angle = atan2f(game->players[game->localId].view.y,game->players[game->localId].view.x) * RAD2DEG;
+void PlayerUpdate(Player *player, const Input *input, const float *dt) {
+    player->velocity = Vector2Scale(Vector2Normalize(input->move), player->velMult);
+    player->position = Vector2Add(Vector2Scale(player->velocity, *dt), player->position);
+    player->mousePosP = Vector2Subtract(input->mousepos, player->position);
+    player->view = Vector2Normalize(player->mousePosP);
+    player->angle = atan2f(player->view.y, player->view.x) * RAD2DEG;
 }
 
 void GameRender(const Game *game) {
